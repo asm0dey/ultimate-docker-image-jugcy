@@ -434,6 +434,8 @@ extracted
 6 directories, 93 files
 ```
 
+<v-click>93 files. This is a *small* Spring app.</v-click>
+
 ---
 
 # Layered image structure
@@ -1018,6 +1020,12 @@ COPY --from=optimizer /checkpoint /checkpoint
 ```
 ````
 
+<v-click>
+
+The checkpoint *works*. It's the exit code that lies — so we tell Docker to ignore it.
+
+</v-click>
+
 
 ---
 
@@ -1050,6 +1058,10 @@ Tomcat started on port 8080 (http) with context path '/'
 Restored PetClinicApplication in 0.104 seconds (process running for 0.104)
 ```
 ````
+
+<v-click>Insecure builder, privileged container. Do not show this slide to your security team.</v-click>
+
+<v-click>Hikari is right: from the pool's point of view the JVM just skipped an hour.</v-click>
 
 ---
 
