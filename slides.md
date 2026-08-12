@@ -775,12 +775,12 @@ Even more classes!!!
 ````md magic-move
 ```docker {all|5}
 #omitted: builder stage
-FROM bellsoft/liberica-runtime-container:jre-25-slim-musl as optimizer
+FROM bellsoft/liberica-runtime-container:jre-26-slim-musl as optimizer
 COPY --from=builder /app/build/libs/spring-petclinic-4.0.0-SNAPSHOT.jar /app/app.jar
 WORKDIR /app
 RUN java -Djarmode=tools -jar /app/app.jar extract --layers --launcher
 
-FROM bellsoft/liberica-runtime-container:jre-25-slim-musl as runner
+FROM bellsoft/liberica-runtime-container:jre-26-slim-musl as runner
 ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
 COPY --from=optimizer /app/extracted/dependencies/ ./
 COPY --from=optimizer /app/extracted/spring-boot-loader/ ./
@@ -789,12 +789,12 @@ COPY --from=optimizer /app/extracted/application/ ./
 ```
 ```docker {5|7,8}
 #omitted: builder stage
-FROM bellsoft/liberica-runtime-container:jre-25-slim-musl as optimizer
+FROM bellsoft/liberica-runtime-container:jre-26-slim-musl as optimizer
 COPY --from=builder /app/build/libs/spring-petclinic-4.0.0-SNAPSHOT.jar /app/app.jar
 WORKDIR /app
 RUN java -Djarmode=tools -jar /app/app.jar extract --layers --destination extracted
 
-FROM bellsoft/liberica-runtime-container:jre-25-cds-slim-musl as runner
+FROM bellsoft/liberica-runtime-container:jre-26-cds-slim-musl as runner
 ENTRYPOINT ["java", "-jar", "app.jar"]
 COPY --from=optimizer /app/extracted/dependencies/ ./
 COPY --from=optimizer /app/extracted/spring-boot-loader/ ./
@@ -803,7 +803,7 @@ COPY --from=optimizer /app/extracted/application/ ./
 ```
 ```docker {8-11|3}
 #omitted: builder and optimizer stages
-FROM bellsoft/liberica-runtime-container:jre-25-cds-slim-musl as runner
+FROM bellsoft/liberica-runtime-container:jre-26-cds-slim-musl as runner
 ENTRYPOINT ["java", "-jar", "app.jar"]
 COPY --from=optimizer /app/extracted/dependencies/ ./
 COPY --from=optimizer /app/extracted/spring-boot-loader/ ./
@@ -816,7 +816,7 @@ RUN java -Dspring.aot.enabled=true \
 ```
 ```docker {3-6|all}
 #omitted: builder and optimizer stages
-FROM bellsoft/liberica-runtime-container:jre-25-cds-slim-musl as runner
+FROM bellsoft/liberica-runtime-container:jre-26-cds-slim-musl as runner
 ENTRYPOINT ["java", \
             "-Dspring.aot.enabled=true", \
             "-XX:SharedArchiveFile=application.jsa", \
@@ -865,14 +865,16 @@ Which is not small at all!
 
 # Startup, measured
 
-5× faster for 117 MB on disk — same host, same layered image
+Same host, same layered image, five runs each
 
-| Image | Startup |
-|---|---|
-| plain JRE, no cache | 3.7 – 4.0 s |
-| `-XX:SharedArchiveFile` (AppCDS) | 1.66 – 1.86 s |
-| `-XX:AOTCache` | 1.12 – 1.18 s |
-| `-XX:AOTCache` + `-Dspring.aot.enabled=true` | **0.69 – 0.79 s** |
+| Image | JDK | Startup |
+|---|---|---|
+| plain JRE, no cache | 26 | 3.21 – 3.52 s |
+| `-XX:SharedArchiveFile` (AppCDS) | 26 | 1.80 – 1.99 s |
+| `-XX:AOTCache` | 25 | 0.98 – 1.12 s |
+| `-XX:AOTCache` + `-Dspring.aot.enabled=true` | 25 | **0.81 – 0.86 s** |
+
+<div class="text-sm opacity-70 mt-2">AOTCache throws <code>InternalError</code> on every 26 start — our own image. AOT rows stay 25.</div>
 
 ---
 
@@ -890,7 +892,7 @@ https://openjdk.org/projects/crac/
 
 Two things to know before we start:
 
-* `jre-crac-slim` is **JDK 21** — there is no CRaC build of 25 or 26 yet
+* `jre-crac-slim` is **JDK 21** — there is no CRaC build of 26 yet, so this section drops four versions
 * the app needs `org.crac:crac` on the classpath for `spring.context.checkpoint` to fire
 
 </v-click>

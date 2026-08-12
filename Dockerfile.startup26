@@ -1,0 +1,44 @@
+# The aot and aotspring stages below run on JDK 25, not 26: on Liberica 26,
+# -XX:AOTCache fails on every single start with `InternalError: Unexpected
+# exception when loading aot-linked classes`. We checked — it's not a slim/
+# jlink artifact, the full jre-26-musl image does the exact same thing. It's
+# our own image. We're not thrilled about it either.
+FROM bellsoft/liberica-runtime-container:jre-26-slim-musl AS optimizer
+COPY app.jar /app/app.jar
+WORKDIR /app
+RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
+
+FROM bellsoft/liberica-runtime-container:jre-26-slim-musl AS plain
+WORKDIR /app
+ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY --from=optimizer /app/extracted/dependencies/ ./
+COPY --from=optimizer /app/extracted/spring-boot-loader/ ./
+COPY --from=optimizer /app/extracted/snapshot-dependencies/ ./
+COPY --from=optimizer /app/extracted/application/ ./
+
+FROM bellsoft/liberica-runtime-container:jre-26-cds-slim-musl AS appcds
+WORKDIR /app
+ENTRYPOINT ["java", "-XX:SharedArchiveFile=application.jsa", "-jar", "app.jar"]
+COPY --from=optimizer /app/extracted/dependencies/ ./
+COPY --from=optimizer /app/extracted/spring-boot-loader/ ./
+COPY --from=optimizer /app/extracted/snapshot-dependencies/ ./
+COPY --from=optimizer /app/extracted/application/ ./
+RUN java -XX:ArchiveClassesAtExit=./application.jsa -Dspring.context.exit=onRefresh -jar app.jar
+
+FROM bellsoft/liberica-runtime-container:jre-25-slim-musl AS aot
+WORKDIR /app
+ENTRYPOINT ["java", "-XX:AOTCache=app.aot", "-jar", "app.jar"]
+COPY --from=optimizer /app/extracted/dependencies/ ./
+COPY --from=optimizer /app/extracted/spring-boot-loader/ ./
+COPY --from=optimizer /app/extracted/snapshot-dependencies/ ./
+COPY --from=optimizer /app/extracted/application/ ./
+RUN java -XX:AOTCacheOutput=app.aot -Dspring.context.exit=onRefresh -jar app.jar
+
+FROM bellsoft/liberica-runtime-container:jre-25-slim-musl AS aotspring
+WORKDIR /app
+ENTRYPOINT ["java", "-Dspring.aot.enabled=true", "-XX:AOTCache=app.aot", "-jar", "app.jar"]
+COPY --from=optimizer /app/extracted/dependencies/ ./
+COPY --from=optimizer /app/extracted/spring-boot-loader/ ./
+COPY --from=optimizer /app/extracted/snapshot-dependencies/ ./
+COPY --from=optimizer /app/extracted/application/ ./
+RUN java -Dspring.aot.enabled=true -XX:AOTCacheOutput=app.aot -Dspring.context.exit=onRefresh -jar app.jar
