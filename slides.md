@@ -125,6 +125,12 @@ Cmp   Size  Command
 
 <span v-click="4">713 MB total</span>
 
+<v-click at="5">
+
+## 713 MB to ship 1 MB of pet clinic
+
+</v-click>
+
 ---
 layout: two-cols-header
 ---
