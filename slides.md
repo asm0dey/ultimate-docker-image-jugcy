@@ -718,7 +718,7 @@ There are several solutions for the Spring application startup time
 1. Class Data Sharing (CDS)
 2. Project Leyden — the AOT cache ([JEP 483](https://openjdk.org/jeps/483), [JEP 514](https://openjdk.org/jeps/514))
 3. Coordinated Restore at Checkpoint
-4. Native Image
+4. Native Image — a whole other talk, and not this one
 
 ---
 
@@ -1157,7 +1157,7 @@ layout: two-cols
 layout: statement
 ---
 
-# And now we have all flavours of ultimate docker images!
+# Three flavours of ultimate, and one we skipped
 
 
 ---
@@ -1168,7 +1168,7 @@ layout: statement
 2. Use `jlink` + distroless for the smallest, quietest image — 207 MB → 147 MB, 21 modules, no shell
 3. Use CDS or the AOT cache for faster startup without many compromises — 3.9 s → 0.7 s
 4. Use CRaC for a *lightning-fast* startup — 0.1 s, for a 708 MB image and privileged builds
-5. Use native image if you're prepared to sacrifice some build time
+5. Native image is the fifth option — ask me at the booth, it needs its own hour
 
 ---
 layout: two-cols-header
