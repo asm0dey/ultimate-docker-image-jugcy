@@ -693,19 +693,19 @@ layout: statement
 
 | Image | On disk | Pulled |
 |---|---|---|
-| slim JRE | 214 MB | 111.9 MB |
-| distroless JRE | 207 MB | 108.8 MB |
-| `jlink` + distroless | **147 MB** | 109.7 MB |
+| layered app, slim JRE | 214 MB | 111.9 MB |
+| + distroless base | 207 MB | 108.8 MB |
+| + `jlink` runtime | **147 MB** | 109.7 MB |
 
 <v-click>
 
-We cut 66 MB from disk and pull **2.2 MB less**
+66 MB off disk — 7 from distroless, 59 from `jlink` — and we pull **2.2 MB less**
 
 </v-click>
 
 <v-click>
 
-`lib/modules` was already compressed — and the 61.5 MB of dependencies didn't move
+The 61.5 MB of dependencies didn't move — `lib/modules` was already compressed
 
 </v-click>
 
