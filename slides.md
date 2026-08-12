@@ -123,9 +123,7 @@ Cmp   Size  Command
 
 <span v-click="3">590 MB of the app *and* Gradle build caches</span>
 
-<span v-click="4">713 MB total</span>
-
-<v-click at="5">
+<v-click at="4">
 
 ## 713 MB to ship 1 MB of pet clinic
 
