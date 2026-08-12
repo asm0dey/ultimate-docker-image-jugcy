@@ -865,14 +865,14 @@ Which is not small at all!
 
 # Startup, measured
 
-Same host, same layered image, five runs each
+Same host, same layered image
 
 | Image | JDK | Startup |
 |---|---|---|
 | plain JRE, no cache | 26 | 3.21 – 3.52 s |
 | `-XX:SharedArchiveFile` (AppCDS) | 26 | 1.80 – 1.99 s |
-| `-XX:AOTCache` | 25 | 0.98 – 1.12 s |
-| `-XX:AOTCache` + `-Dspring.aot.enabled=true` | 25 | **0.81 – 0.86 s** |
+| `-XX:AOTCache` | 25 | 1.12 – 1.18 s |
+| `-XX:AOTCache` + `-Dspring.aot.enabled=true` | 25 | **0.69 – 0.79 s** |
 
 <div class="text-sm opacity-70 mt-2">AOTCache throws <code>InternalError</code> on every 26 start — our own image. AOT rows stay 25.</div>
 
