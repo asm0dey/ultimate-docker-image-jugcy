@@ -527,7 +527,8 @@ a3f1c07d21 petclinic:latest 0B        Buildpacks Process Types                  
 <div v-click="[2,3]" class="absolute"><b>Slice 1</b> — 65.1 MB of dependencies, untouched between commits</div>
 <div v-click="[3,4]" class="absolute"><b>Slice 4</b> — 1.45 MB of your classes: the only thing you re-push</div>
 <div v-click="[4,5]" class="absolute">The <b>launcher</b> — 2.93 MB of process types and entrypoint wiring</div>
-<div v-click="5" class="absolute">226 MB total — and the buildpack sliced it for us</div>
+<div v-click="[5,6]" class="absolute">226 MB total — and the buildpack sliced it for us</div>
+<div v-click="6" class="absolute">Our hand-rolled image was 187 MB. We paid 39 MB to stop maintaining a Dockerfile.</div>
 </div>
 
 ---
