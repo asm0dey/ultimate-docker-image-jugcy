@@ -940,6 +940,8 @@ COPY --from=optimizer /checkpoint /checkpoint
 
 Let's try to fix it with arcane magic
 
+<div class="crac-magic-move">
+
 ````md magic-move
 ```docker
 FROM bellsoft/liberica-runtime-container:jdk-25-musl as builder
@@ -1020,12 +1022,23 @@ COPY --from=optimizer /checkpoint /checkpoint
 ```
 ````
 
+</div>
+
 <v-click>
 
 The checkpoint *works*. It's the exit code that lies — so we tell Docker to ignore it.
 
 </v-click>
 
+<style scoped>
+.crac-magic-move {
+  --slidev-code-font-size: 9px;
+  --slidev-code-line-height: 11px;
+  --slidev-code-padding: 4px;
+  max-height: 230px;
+  overflow-y: auto;
+}
+</style>
 
 ---
 
@@ -1059,9 +1072,17 @@ Restored PetClinicApplication in 0.104 seconds (process running for 0.104)
 ```
 ````
 
-<v-click>Insecure builder, privileged container. Do not show this slide to your security team.</v-click>
+<v-click>
 
-<v-click>Hikari is right: from the pool's point of view the JVM just skipped an hour.</v-click>
+Insecure builder, privileged container. Do not show this slide to your security team.
+
+</v-click>
+
+<v-click>
+
+Hikari is right: from the pool's point of view the JVM just skipped an hour.
+
+</v-click>
 
 ---
 
