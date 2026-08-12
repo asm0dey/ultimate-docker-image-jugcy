@@ -612,7 +612,7 @@ java.sql.rowset,jdk.jfr,jdk.management,jdk.net,jdk.unsupported
 # Linking it
 
 ````md magic-move
-```docker {1}
+```docker {3-5|1}
 FROM bellsoft/liberica-runtime-container:jdk-26-musl as builder
 
 RUN jlink --add-modules "$(jdeps ... app.jar)" \
@@ -622,7 +622,7 @@ RUN jlink --add-modules "$(jdeps ... app.jar)" \
 ```plain
 Error: This JDK does not support linking from the current run-time image
 ```
-```docker {1}
+```docker {1|3-5}
 FROM bellsoft/liberica-runtime-container:jdk-all-26-musl as builder
 
 RUN jlink --add-modules "$(jdeps ... app.jar)" \
@@ -897,17 +897,14 @@ Same host, same layered image — AOT rows from an earlier idle-machine run
 
 CRaC: Coordinated Restore at Checkpoint
 
-> …coordination of Java programs with mechanisms to checkpoint (make an image of, snapshot) a Java
-> instance while it is executing. Restoring from the image could be a solution to some of the
-> problems with the start-up and warm-up times.
+> …checkpoint (snapshot) a Java instance while it is executing. Restoring from the image
+> could be a solution to some of the problems with the start-up and warm-up times.
 
 https://openjdk.org/projects/crac/
 
 <v-click>
 
-Two things to know before we start:
-
-* `jre-crac-slim` is **JDK 21** — there is no CRaC build of 26 yet, so this section drops five versions
+* `jre-crac-slim` is **JDK 21** — no CRaC build of 26 yet, so this section drops five versions
 * the app needs `org.crac:crac` on the classpath for `spring.context.checkpoint` to fire
 
 </v-click>
