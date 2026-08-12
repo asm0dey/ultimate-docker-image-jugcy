@@ -1159,7 +1159,7 @@ layout: two-cols
 layout: statement
 ---
 
-# Three flavours of ultimate, and one we skipped
+# Four flavours of ultimate, and one we skipped
 
 
 ---
