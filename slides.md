@@ -242,7 +242,7 @@ COPY --from=builder /app/build/libs/spring-petclinic-4.0.0-SNAPSHOT.jar /app/app
 
 + jar — same size, 66.4 MB
 
-+ JDK layer 112 MB → JRE layer 144 MB <span v-click="1">🤨</span>
++ JDK layer 112 MB → JRE layer 144 MB <span v-click="1" class="text-xl leading-none align-text-bottom">🤨</span>
 
 <v-click at="2">
 
