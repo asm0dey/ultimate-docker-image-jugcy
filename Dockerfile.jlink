@@ -1,0 +1,16 @@
+FROM bellsoft/liberica-runtime-container:jdk-all-26-musl AS builder
+COPY app.jar /app/app.jar
+WORKDIR /app
+RUN java -Djarmode=tools -jar app.jar extract --layers --destination extracted
+RUN jlink --add-modules "$(jdeps --ignore-missing-deps --print-module-deps -q --multi-release 26 \
+      -cp 'extracted/dependencies/lib/*' --recursive extracted/application/app.jar | tail -1)" \
+      --strip-debug --no-header-files --no-man-pages --compress zip-9 --output /javaruntime
+
+FROM bellsoft/hardened-base:distroless-musl
+COPY --from=builder /javaruntime /opt/java
+WORKDIR /app
+ENTRYPOINT ["/opt/java/bin/java", "-jar", "app.jar"]
+COPY --from=builder /app/extracted/dependencies/ ./
+COPY --from=builder /app/extracted/spring-boot-loader/ ./
+COPY --from=builder /app/extracted/snapshot-dependencies/ ./
+COPY --from=builder /app/extracted/application/ ./

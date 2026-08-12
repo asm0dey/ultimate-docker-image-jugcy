@@ -8,21 +8,21 @@
     "export-pdf": "slidev export --with-clicks --format pdf --output dist/index.pdf"
   },
   "dependencies": {
-    "@slidev/cli": "^52.6.0",
+    "@slidev/cli": "^52.19.0",
     "@slidev/theme-apple-basic": "^0.25.1",
     "@slidev/theme-default": "*",
     "@slidev/theme-seriph": "*",
-    "slidev-theme-dracula": "^0.2.0"
+    "slidev-theme-dracula": "^0.2.5"
   },
   "name": "kotlin-spring",
   "devDependencies": {
     "@iconify-json/flat-color-icons": "^1.2.3",
     "@iconify-json/fxemoji": "^1.2.2",
     "@iconify-json/icon-park": "^1.2.4",
-    "@iconify-json/logos": "^1.2.10",
+    "@iconify-json/logos": "^1.2.12",
     "@iconify-json/noto-v1": "^1.2.5",
-    "@iconify-json/skill-icons": "^1.2.3",
-    "@iconify-json/twemoji": "^1.2.4",
-    "playwright-chromium": "^1.56.1"
+    "@iconify-json/skill-icons": "^1.2.4",
+    "@iconify-json/twemoji": "^1.2.5",
+    "playwright-chromium": "^1.62.1"
   }
 }
