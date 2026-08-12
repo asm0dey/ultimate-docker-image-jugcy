@@ -528,7 +528,7 @@ a3f1c07d21 petclinic:latest 0B        Buildpacks Process Types                  
 <div v-click="[3,4]" class="absolute"><b>Slice 4</b> — 1.45 MB of your classes: the only thing you re-push</div>
 <div v-click="[4,5]" class="absolute">The <b>launcher</b> — 2.93 MB of process types and entrypoint wiring</div>
 <div v-click="[5,6]" class="absolute">226 MB total — and the buildpack sliced it for us</div>
-<div v-click="6" class="absolute">Our hand-rolled layered image was 207 MB. We paid 19 MB to stop maintaining a Dockerfile.</div>
+<div v-click="6" class="absolute">Our hand-rolled layered image was 214 MB. We paid 12 MB to stop maintaining a Dockerfile.</div>
 </div>
 
 ---
@@ -563,18 +563,25 @@ layout: statement
 
 ---
 
-# Where do those 207 MB live?
+# Where do those 214 MB live?
 
 ```text {all|2|3|4}
   Size  Layer
-138 MB  FROM jre-26-slim-musl
- 67 MB  COPY dependencies/
-1.4 MB  COPY application/
+144 MB  FROM jre-26-slim-musl
+ 69 MB  COPY dependencies/
+1.0 MB  COPY application/
 ```
 
-<v-click at="1">The JRE is now the biggest thing in the image</v-click>
+<v-click at="1">
 
-<v-click at="3">Our code is 0.7% of it</v-click>
+The JRE is now the biggest thing in the image
+
+</v-click>
+<v-click at="3">
+
+Our code is 0.5% of it
+
+</v-click>
 
 ---
 
@@ -595,7 +602,7 @@ jdeps --ignore-missing-deps --print-module-deps -q \
 ```text
 java.base,java.compiler,java.desktop,java.instrument,java.net.http,
 java.prefs,java.rmi,java.scripting,java.security.jgss,
-java.sql.rowset,jdk.jfr,jdk.management,jdk.unsupported
+java.sql.rowset,jdk.jfr,jdk.management,jdk.net,jdk.unsupported
 ```
 
 </v-click>
@@ -632,9 +639,9 @@ RUN jlink --add-modules "$(jdeps ... app.jar)" \
 
 | | Modules | Size |
 |---|---|---|
-| JDK | 68 | 217 MB |
-| JRE | 48 | 138 MB |
-| **our `jlink` runtime** | **21** | **74 MB** |
+| JDK (`jdk-all-26-musl`) | 68 | 256 MB |
+| JRE | 48 | 144 MB |
+| **our `jlink` runtime** | **22** | **77 MB** |
 
 <v-click>Then put it on a base that has nothing else in it</v-click>
 
@@ -668,7 +675,7 @@ exec: "/bin/sh": stat /bin/sh: no such file or directory
 
 # Result
 
-**207 MB → 147 MB** on disk. 60 MB gone.
+**214 MB → 147 MB** on disk. 66 MB gone.
 
 <v-click>And it still starts in 2.8 s and still serves pets 🐕</v-click>
 
@@ -686,13 +693,21 @@ layout: statement
 
 | Image | On disk | Pulled |
 |---|---|---|
-| slim JRE | 207 MB | 108.9 MB |
-| distroless JRE | 206 MB | 108.4 MB |
-| `jlink` + distroless | **147 MB** | 109.3 MB |
+| slim JRE | 214 MB | 111.9 MB |
+| distroless JRE | 207 MB | 108.8 MB |
+| `jlink` + distroless | **147 MB** | 109.7 MB |
 
-<v-click>We cut 60 MB from disk and pull **0.4 MB more**</v-click>
+<v-click>
 
-<v-click>`lib/modules` was already compressed — and the 61.6 MB of dependencies didn't move</v-click>
+We cut 66 MB from disk and pull **2.2 MB less**
+
+</v-click>
+
+<v-click>
+
+`lib/modules` was already compressed — and the 61.5 MB of dependencies didn't move
+
+</v-click>
 
 ---
 
@@ -701,8 +716,8 @@ layout: statement
 <v-clicks>
 
 * Pull size: yes, pointless — your dependencies *are* the image
-* Disk and page cache: 60 MB per node, per version
-* Attack surface: 48 modules → 21, no shell, no package manager
+* Disk and page cache: 66 MB per node, per version
+* Attack surface: 48 modules → 22, no shell, no package manager
 * And you don't need `jlink` for that last one:<br/>`bellsoft/hardened-liberica-runtime-container:jre-26-distroless-musl`
 
 </v-clicks>
@@ -1167,7 +1182,7 @@ layout: statement
 # Quick summary?
 
 1. Use layers for faster deployment — 66 MB pulled once, ~1 MB per commit after
-2. Use `jlink` + distroless for the smallest, quietest image — 207 MB → 147 MB, 21 modules, no shell
+2. Use `jlink` + distroless for the smallest, quietest image — 214 MB → 147 MB, 22 modules, no shell
 3. Use CDS or the AOT cache for faster startup without many compromises — 3.5 s → 0.7 s
 4. Use CRaC for a *lightning-fast* startup — 0.1 s, for a 708 MB image and privileged builds
 5. Native image is the fifth option — ask me at the booth, it needs its own hour
