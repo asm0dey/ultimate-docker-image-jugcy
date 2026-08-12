@@ -1173,6 +1173,20 @@ layout: statement
 5. Native image is the fifth option — ask me at the booth, it needs its own hour
 
 ---
+layout: statement
+---
+
+# So what is the ultimate image?
+
+<v-clicks>
+
+## The one you didn't have to think about
+
+### Layers you get for free. Startup you pay for once. Size you pay for forever.
+
+</v-clicks>
+
+---
 layout: two-cols-header
 ---
 
