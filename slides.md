@@ -528,7 +528,7 @@ a3f1c07d21 petclinic:latest 0B        Buildpacks Process Types                  
 <div v-click="[3,4]" class="absolute"><b>Slice 4</b> — 1.45 MB of your classes: the only thing you re-push</div>
 <div v-click="[4,5]" class="absolute">The <b>launcher</b> — 2.93 MB of process types and entrypoint wiring</div>
 <div v-click="[5,6]" class="absolute">226 MB total — and the buildpack sliced it for us</div>
-<div v-click="6" class="absolute">Our hand-rolled image was 187 MB. We paid 39 MB to stop maintaining a Dockerfile.</div>
+<div v-click="6" class="absolute">Our hand-rolled layered image was 207 MB. We paid 19 MB to stop maintaining a Dockerfile.</div>
 </div>
 
 ---
@@ -551,7 +551,7 @@ layout: statement
 
 # What's still fat?
 
-We fixed the *pull*. The image on disk hasn't moved.
+We made the pull small. What about the thing on disk?
 
 ---
 layout: statement
@@ -865,7 +865,7 @@ Which is not small at all!
 
 # Startup, measured
 
-Same host, same layered image
+Same host, same layered image — AOT rows from an earlier idle-machine run
 
 | Image | JDK | Startup |
 |---|---|---|
@@ -892,7 +892,7 @@ https://openjdk.org/projects/crac/
 
 Two things to know before we start:
 
-* `jre-crac-slim` is **JDK 21** — there is no CRaC build of 26 yet, so this section drops four versions
+* `jre-crac-slim` is **JDK 21** — there is no CRaC build of 26 yet, so this section drops five versions
 * the app needs `org.crac:crac` on the classpath for `spring.context.checkpoint` to fire
 
 </v-click>
@@ -1099,7 +1099,7 @@ Hikari is right: from the pool's point of view the JVM just skipped an hour.
 708 MB  total
 ```
 
-<v-click>0.1 s startup — and the biggest image in this whole talk</v-click>
+<v-click>0.1 s startup — 5 MB *under* the naive image we opened with</v-click>
 
 ---
 
@@ -1168,7 +1168,7 @@ layout: statement
 
 1. Use layers for faster deployment — 66 MB pulled once, ~1 MB per commit after
 2. Use `jlink` + distroless for the smallest, quietest image — 207 MB → 147 MB, 21 modules, no shell
-3. Use CDS or the AOT cache for faster startup without many compromises — 3.9 s → 0.7 s
+3. Use CDS or the AOT cache for faster startup without many compromises — 3.5 s → 0.7 s
 4. Use CRaC for a *lightning-fast* startup — 0.1 s, for a 708 MB image and privileged builds
 5. Native image is the fifth option — ask me at the booth, it needs its own hour
 
