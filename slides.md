@@ -150,7 +150,7 @@ Why do we care? We care because:
 1. `push` takes longer time to start <br/>(update is longer)
 2. `pull` takes longer <br/> (update takes longer & scaling takes longer)
 
-Also, more disk psace is inefficiently used
+Also, more disk space is inefficiently used
 
 ::right::
 
@@ -496,7 +496,7 @@ And it is amazing
 
 ---
 
-# Diversion: buildpacks
+# Digression: buildpacks
 
 https://paketo.io/
 
@@ -1082,7 +1082,7 @@ It depends
 <v-clicks>
 
 * If "It Works" is enough for you <span v-click=2>-> **YES**</span>
-* If you need more predictable and maintanable thing <span v-click=3>-> **NO**</span>
+* If you need something more predictable and maintainable <span v-click=3>-> **NO**</span>
 
 </v-clicks>
 
@@ -1116,7 +1116,7 @@ layout: two-cols
 1. Does not require arcane magic
 2. Works more predictably
 3. Does not depend on unstable features
-4. Does not require privileged containers in 
+4. Does not require privileged containers in production 
 
 ::right::
 
@@ -1165,9 +1165,6 @@ Find me @
 ::right::
 
 <img src="/news.png" class="invert rounded self-center"/>
-
----
-
 
 ---
 layout: end
