@@ -108,18 +108,6 @@ RUN rm -rf /app
 </v-click>  
 ---
 
-# Our `Dockerfile`
-
-```docker {1|3|4|5}
-FROM bellsoft/liberica-runtime-container:jdk-26-musl
-
-COPY . /app
-RUN cd /app && ./gradlew build
-ENTRYPOINT java -jar /app/build/libs/spring-petclinic*.jar
-```
-
----
-
 # Result
 
 ```text {all|2|3|4}{maxHeight:'300px'}
