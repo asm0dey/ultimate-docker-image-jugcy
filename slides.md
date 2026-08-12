@@ -549,9 +549,9 @@ Why do we need them?
 layout: statement
 ---
 
-# Is this all?
+# What's still fat?
 
-We've optimized pull/push size, right?
+We fixed the *pull*. The image on disk hasn't moved.
 
 ---
 layout: statement
@@ -1043,9 +1043,9 @@ The checkpoint *works*. It's the exit code that lies — so we tell Docker to ig
 
 ---
 
-# And this is not all!
+# The magic needs a magic wand
 
-Did you hear about `buildx`?
+`docker build` can't grant `security.insecure`. `buildx` can.
 
 ````md magic-move
 ```bash {1,2|3}
