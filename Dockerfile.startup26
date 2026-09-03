@@ -25,7 +25,7 @@ COPY --from=optimizer /app/extracted/snapshot-dependencies/ ./
 COPY --from=optimizer /app/extracted/application/ ./
 RUN java -XX:ArchiveClassesAtExit=./application.jsa -Dspring.context.exit=onRefresh -jar app.jar
 
-FROM bellsoft/liberica-runtime-container:jre-25-slim-musl AS aot
+FROM bellsoft/liberica-runtime-container:jre-25.0.4_9-slim-musl AS aot
 WORKDIR /app
 ENTRYPOINT ["java", "-XX:AOTCache=app.aot", "-jar", "app.jar"]
 COPY --from=optimizer /app/extracted/dependencies/ ./
@@ -34,7 +34,7 @@ COPY --from=optimizer /app/extracted/snapshot-dependencies/ ./
 COPY --from=optimizer /app/extracted/application/ ./
 RUN java -XX:AOTCacheOutput=app.aot -Dspring.context.exit=onRefresh -jar app.jar
 
-FROM bellsoft/liberica-runtime-container:jre-25-slim-musl AS aotspring
+FROM bellsoft/liberica-runtime-container:jre-25.0.4_9-slim-musl AS aotspring
 WORKDIR /app
 ENTRYPOINT ["java", "-Dspring.aot.enabled=true", "-XX:AOTCache=app.aot", "-jar", "app.jar"]
 COPY --from=optimizer /app/extracted/dependencies/ ./
