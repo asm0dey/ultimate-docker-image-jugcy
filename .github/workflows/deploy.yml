@@ -17,7 +17,7 @@ jobs:
       - name: Build PDF
         run: bun run export-pdf
       - name: Deploy pages
-        uses: crazy-max/ghaction-github-pages@v4
+        uses: crazy-max/ghaction-github-pages@v5
         with:
           build_dir: dist
           target_branch: gh-pages
