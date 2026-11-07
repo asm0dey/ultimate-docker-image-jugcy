@@ -1,0 +1,1 @@
+var e=`/ultimate-docker-image-jugcy/news.png`;export{e as t};
