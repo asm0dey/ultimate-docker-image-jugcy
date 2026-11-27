@@ -1,0 +1,1 @@
+import{C as e,K as t,U as n,b as r}from"../modules/shiki-vuUP75AI.js";import{it as i}from"../index-DQRLl5sY.js";var a={class:`slidev-layout statement`},o={class:`my-auto`},s={__name:`statement`,setup(s){let{$slidev:c,$nav:l,$clicksContext:u,$clicks:d,$page:f,$renderContext:p,$frontmatter:m}=i();return(i,s)=>(n(),e(`div`,a,[r(`div`,o,[t(i.$slots,`default`)])]))}};export{s as t};
